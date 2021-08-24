@@ -3,6 +3,8 @@ This is vgmstream, a library for playing streamed (pre-recorded) audio from
 video games.
 
 ## Build on Ubuntu
+Linux binaries are available on the [releases page](https://github.com/LoveEevee/vgmstream-g719/releases).
+
 ```bash
 sudo apt update
 sudo apt install libmpg123-dev libvorbis-dev libspeex-dev libavformat-dev libavcodec-dev libavutil-dev libswresample-dev libao-dev audacious-dev libjansson-dev cmake
