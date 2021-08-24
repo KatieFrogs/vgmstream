@@ -59,3 +59,16 @@ Release
 # cmake stuff
 /build
 /cmake-build*
+CMakeCache.txt
+CMakeFiles
+/lib
+/maitrac3plus
+/cli/vgmstream_cli
+/cli/vgmstream123
+/cli/*.so
+/Makefile
+/audacious/vgmstream.so
+/audacious/Makefile
+/cli/Makefile
+/src/Makefile
+cmake_install.cmake
