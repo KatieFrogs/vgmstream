@@ -232,20 +232,16 @@ if(NOT WIN32 AND USE_G719)
 		COPYONLY)
 		add_subdirectory(${G719_PATH})
 	else()
-		include(ExternalProject)
-		ExternalProject_Add(libg719_decode
+		include(FetchContent)
+		FetchContent_Populate(libg719_decode
 			GIT_REPOSITORY https://github.com/kode54/libg719_decode.git
-			PREFIX ${VGM_SOURCE_DIR}/dependencies
+			SOURCE_DIR ${VGM_SOURCE_DIR}/dependencies/libg719_decode
 		)
 		configure_file(
 			${VGM_SOURCE_DIR}/ext_libs/libg719_decode/CMakeLists.txt
-			${VGM_SOURCE_DIR}/dependencies/src/libg719_decode/CMakeLists.txt
+			${VGM_SOURCE_DIR}/dependencies/libg719_decode/CMakeLists.txt
 		COPYONLY)
-		
-		add_library(g719_decode STATIC IMPORTED)
-		set_target_properties(g719_decode PROPERTIES
-			IMPORTED_LOCATION ${VGM_SOURCE_DIR}/dependencies/src/libg719_decode-build/libg719_decode.a
-		)
+		add_subdirectory(${libg719_decode_SOURCE_DIR})
 	endif()
 endif()
 add_subdirectory(src)
