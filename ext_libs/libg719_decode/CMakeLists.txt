@@ -9,3 +9,6 @@ target_include_directories(g719_decode PRIVATE reference_code/include)
 
 set_property(TARGET g719_decode PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_compile_definitions(g719_decode PRIVATE VAR_ARRAYS)
+
+set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_BINARY_DIR})
+install(TARGETS g719_decode DESTINATION ${CMAKE_INSTALL_PREFIX})

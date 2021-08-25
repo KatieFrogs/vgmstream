@@ -49,13 +49,12 @@ set_ffmpeg(ON FALSE)
 option(USE_MAIATRAC3PLUS "Use MAIATRAC3+ for support of ATRAC3+" OFF)
 set(MAIATRAC3PLUS_PATH CACHE PATH "Path to MAIATRAC3+")
 option(USE_G7221 "Use G7221 for support of ITU-T G.722.1 annex C" ON)
+option(USE_G719 "Use libg719_decode for support ITU-T G.719" ON)
 if(NOT WIN32)
-	option(USE_G719 "Use libg719_decode for support ITU-T G.719" OFF)
 	set(G719_PATH CACHE PATH "Path to G.719 decoder")
 endif()
 if(WIN32)
 	# May need to see if it is possible to get these to work on non-Windows systems too
-	option(USE_G719 "Use libg719_decode for support ITU-T G.719" ON)
 	option(USE_ATRAC9 "Use LibAtrac9 for support of ATRAC9" ON)
 	option(USE_CELT "Use libcelt for support of FSB CELT versions 0.6.1 and 0.11.0" ON)
 	option(USE_SPEEX "Use libspeex for support of SPEEX" ON)
@@ -227,9 +226,26 @@ if(USE_MAIATRAC3PLUS)
 endif()
 if(NOT WIN32 AND USE_G719)
 	if(G719_PATH)
+		configure_file(
+			${VGM_SOURCE_DIR}/ext_libs/libg719_decode/CMakeLists.txt
+			${G719_PATH}/CMakeLists.txt
+		COPYONLY)
 		add_subdirectory(${G719_PATH})
 	else()
-		message(FATAL_ERROR "Path to G.719 decoder must be set. (Use G719_PATH)")
+		include(ExternalProject)
+		ExternalProject_Add(libg719_decode
+			GIT_REPOSITORY https://github.com/kode54/libg719_decode.git
+			PREFIX ${VGM_SOURCE_DIR}/dependencies
+		)
+		configure_file(
+			${VGM_SOURCE_DIR}/ext_libs/libg719_decode/CMakeLists.txt
+			${VGM_SOURCE_DIR}/dependencies/src/libg719_decode/CMakeLists.txt
+		COPYONLY)
+		
+		add_library(g719_decode STATIC IMPORTED)
+		set_target_properties(g719_decode PROPERTIES
+			IMPORTED_LOCATION ${VGM_SOURCE_DIR}/dependencies/src/libg719_decode-build/libg719_decode.a
+		)
 	endif()
 endif()
 add_subdirectory(src)
