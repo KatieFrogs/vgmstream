@@ -14,6 +14,7 @@ exit
 INCS=
 LIBS=
 FLAGS=
+CMAKE_FLAGS=
 
 ###############################################################################
 # base deps
@@ -53,6 +54,7 @@ FLAGS+=" VGM_FFMPEG=1"
 # atrac9 deps (compile)
 mkdir dependencies
 cd dependencies
+
 git clone https://github.com/Thealexbarney/LibAtrac9
 cd LibAtrac9/C
 make
@@ -170,16 +172,21 @@ cd celt-0110
 make LDFLAGS="-no-undefined" AM_CFLAGS="-DCUSTOM_MODES=1 $CELT0110_RENAMES"
 mv ./libcelt/.libs/libcelt0.a ./libcelt/.libs/libcelt-0110.a
 
-cd ..
-
-cd ..
-
-FLAGS+="VGM_CELT=2"
+FLAGS+=" VGM_CELT=2"
 #INCS+=" -I../dependencies/celt-0061/libcelt/.libs/"
 LIBS+=" -L../dependencies/celt-0061/libcelt/.libs/ -L../dependencies/celt-0110/libcelt/.libs/"
+
+cd ..
+
+git clone --depth 1 https://github.com/kode54/libg719_decode
+cp ../ext_libs/libg719_decode/CMakeLists.txt libg719_decode/
+CMAKE_FLAGS+=" -DUSE_G719=ON -DG719_PATH=dependencies/libg719_decode"
+
+cd ..
 
 
 ###############################################################################
 # vgmstream
+cmake . $CMAKE_FLAGS
 make vgmstream_cli $FLAGS EXTRA_CFLAGS=$INCS EXTRA_LDFLAGS=$LIBS
 make vgmstream123 $FLAGS EXTRA_CFLAGS=$INCS EXTRA_LDFLAGS=$LIBS

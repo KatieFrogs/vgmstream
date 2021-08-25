@@ -9,7 +9,13 @@ Linux binaries are available on the [releases page](https://github.com/LoveEevee
 sudo apt update
 sudo apt install libmpg123-dev libvorbis-dev libspeex-dev libavformat-dev libavcodec-dev libavutil-dev libswresample-dev libao-dev audacious-dev libjansson-dev cmake
 
-cmake . -DUSE_G719=ON -DG719_PATH=libg719_decode
+mkdir dependencies
+cd dependencies
+git clone --depth 1 https://github.com/kode54/libg719_decode
+cp ../ext_libs/libg719_decode/CMakeLists.txt libg719_decode/
+cd ..
+
+cmake . -DUSE_G719=ON -DG719_PATH=dependencies/libg719_decode
 make
 ```
 `vgmstream_cli` and `vgmstream123` will be output in the `cli` directory.
