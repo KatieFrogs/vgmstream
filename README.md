@@ -9,13 +9,10 @@ Linux binaries are available on the [releases page](https://github.com/LoveEevee
 sudo apt update
 sudo apt install libmpg123-dev libvorbis-dev libspeex-dev libavformat-dev libavcodec-dev libavutil-dev libswresample-dev libao-dev audacious-dev libjansson-dev cmake
 
-cmake . -DUSE_G719=ON -DG719_PATH=libg719_decode -DUSE_MAIATRAC3PLUS=ON -DMAIATRAC3PLUS_PATH=maiatrac3plus -DUSE_RPATH=ON
+cmake . -DUSE_G719=ON -DG719_PATH=libg719_decode
 make
-cp lib/*.so cli/
 ```
-`vgmstream_cli`, `vgmstream123`, `libat3plusdecoder.so`, and `libg719_decode.so` will be output in the `cli` directory.
-
-Set the `LD_LIBRARY_PATH` environment variable if you want to run it outside of its directory.
+`vgmstream_cli` and `vgmstream123` will be output in the `cli` directory.
 
 ## vgmstream's features
 - hundreds of video game music formats and codecs, from typical game engine files to 
